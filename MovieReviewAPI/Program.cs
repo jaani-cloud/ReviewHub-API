@@ -30,6 +30,7 @@ public class Program
         builder.Services.AddScoped<IJwtService, JwtService>();
         builder.Services.AddScoped<IEmailService, EmailService>();
         builder.Services.AddScoped<IUserService, UserService>();
+        builder.Services.AddScoped<IMovieService, MovieService>();
 
         builder.Services.AddSingleton<PendingUserStore>();
         builder.Services.AddSingleton<PasswordResetStore>();
@@ -48,6 +49,10 @@ public class Program
 
 
         // JWT
+        var jwtKey = builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("Jwt:Key not configured");
+        var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? "MovieReviewAPI";
+        var jwtAudience = builder.Configuration["Jwt:Audience"] ?? "MovieReviewAPIUser";
+
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -57,11 +62,10 @@ public class Program
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
-                    ValidAudience = builder.Configuration["Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)
-                    )
+                    ValidIssuer = jwtIssuer,
+                    ValidAudience = jwtAudience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+                    ClockSkew = TimeSpan.Zero
                 };
             });
 

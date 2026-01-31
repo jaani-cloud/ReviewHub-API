@@ -30,7 +30,4 @@
 		<ProjectReference Include="..\MovieReview.Domain\MovieReview.Domain.csproj" />
 		<ProjectReference Include="..\MovieReview.Infrastructure\MovieReview.Infrastructure.csproj" />
 	</ItemGroup>
-	<ItemGroup>
-		<Folder Include="Middleware\" />
-	</ItemGroup>
 </Project>
