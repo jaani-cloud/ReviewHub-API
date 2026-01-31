@@ -70,12 +70,12 @@ namespace MovieReview.Application.Services
             await SendEmailAsync(email, subject, body);
         }
 
-        public async Task SendPasswordResetEmailAsync(string email, string code)
+        public async Task SendPasswordResetEmailAsync(string email, string code, string firstName)
         {
             var subject = "Reset Your Password - ReviewHub";
             var body = GenerateEmailTemplate(
                 title: "Password Reset - ReviewHub",
-                heading: "Reset Your Password",
+                heading: $@"Reset Your Password<span style=""color:#1A1AFF; font-size:32px; font-weight:800;""><br>{firstName} Ji!</span>",
                 icon: "🔒",
                 message: "We received a request to reset your password. Use the code below to proceed with resetting your password:",
                 code: code,

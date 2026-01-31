@@ -9,4 +9,7 @@ public interface IAuthService
     Task<string> LoginAsync(string email, string password);
     Task<bool> VerifyEmailAsync(string email, string code);
     Task<bool> ResendVerificationCodeAsync(string email);
+    Task<bool> ForgotPasswordAsync(string email);
+    Task<string> VerifyResetCodeAsync(string email, string code);
+    Task<bool> ResetPasswordAsync(string resetToken, string newPassword);
 }

@@ -113,4 +113,74 @@ public class AuthController : ControllerBase
             });
         }
     }
+
+    [HttpPost("forgot-password")]
+    public async Task<ActionResult<AuthResponse>> ForgotPassword([FromBody] ForgotPasswordRequest request)
+    {
+        try
+        {
+            await _authService.ForgotPasswordAsync(request.Email);
+
+            return Ok(new AuthResponse
+            {
+                Success = true,
+                Message = "Password reset code sent to your email."
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new AuthResponse
+            {
+                Success = false,
+                Message = ex.Message
+            });
+        }
+    }
+
+    [HttpPost("verify-reset-code")]
+    public async Task<ActionResult<AuthResponse>> VerifyResetCode([FromBody] VerifyResetCodeRequest request)
+    {
+        try
+        {
+            var resetToken = await _authService.VerifyResetCodeAsync(request.Email, request.Code);
+
+            return Ok(new AuthResponse
+            {
+                Success = true,
+                Message = "Code verified. Use the reset token to set new password.",
+                Token = resetToken
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new AuthResponse
+            {
+                Success = false,
+                Message = ex.Message
+            });
+        }
+    }
+
+    [HttpPost("reset-password")]
+    public async Task<ActionResult<AuthResponse>> ResetPassword([FromBody] ResetPasswordRequest request)
+    {
+        try
+        {
+            await _authService.ResetPasswordAsync(request.ResetToken, request.NewPassword);
+
+            return Ok(new AuthResponse
+            {
+                Success = true,
+                Message = "Password reset successfully. You can now login with your new password."
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new AuthResponse
+            {
+                Success = false,
+                Message = ex.Message
+            });
+        }
+    }
 }

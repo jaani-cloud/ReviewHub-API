@@ -35,6 +35,7 @@ public class Program
         builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 
         builder.Services.AddSingleton<PendingUserStore>();
+        builder.Services.AddSingleton<PasswordResetStore>();
 
         builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<IJwtService, JwtService>();
