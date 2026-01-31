@@ -111,6 +111,9 @@ public class Program
         var app = builder.Build();
         app.UseCors("AllowReactApp");
 
+        app.UseForwardedHeaders();
+        app.UseHttpsRedirection();
+
 
         if (app.Environment.IsDevelopment())
         {
@@ -118,7 +121,7 @@ public class Program
 
             app.UseSwaggerUI(c =>
             {
-                c.DocumentTitle = "Rohit-MovieReview API";
+                c.DocumentTitle = "Rohit-ReviewHub API";
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "MovieReview API v1");
             });
         }
