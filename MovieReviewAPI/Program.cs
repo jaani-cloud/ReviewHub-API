@@ -112,28 +112,29 @@ public class Program
         app.UseCors("AllowReactApp");
 
         app.UseForwardedHeaders();
-        app.UseHttpsRedirection();
+
+
+        app.UseSwagger();
+        app.UseSwaggerUI(c =>
+        {
+            c.DocumentTitle = "Rohit-ReviewHub API";
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "MovieReview API v1");
+        });
 
 
         if (app.Environment.IsDevelopment())
         {
-            app.UseSwagger();
-
-            app.UseSwaggerUI(c =>
-            {
-                c.DocumentTitle = "Rohit-ReviewHub API";
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "MovieReview API v1");
-            });
+            app.UseHttpsRedirection();
         }
-
-        app.UseHttpsRedirection();
+        app.UseAuthentication();
         app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllers();
+        app.MapGet("/", () => "ReviewHub API is running on port 8080!");
 
 
-        var port = Environment.GetEnvironmentVariable("PORT") ?? "10000";
+        var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
         app.Urls.Add($"http://*:{port}");
 
 
