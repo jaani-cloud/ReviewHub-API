@@ -29,17 +29,10 @@ public class Program
         builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<IJwtService, JwtService>();
         builder.Services.AddScoped<IEmailService, EmailService>();
-
-        builder.Services.AddScoped<IUserRepository, UserRepository>();
-        builder.Services.AddScoped<IMovieRepository, MovieRepository>();
-        builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+        builder.Services.AddScoped<IUserService, UserService>();
 
         builder.Services.AddSingleton<PendingUserStore>();
         builder.Services.AddSingleton<PasswordResetStore>();
-
-        builder.Services.AddScoped<IAuthService, AuthService>();
-        builder.Services.AddScoped<IJwtService, JwtService>();
-        builder.Services.AddScoped<IEmailService, EmailService>();
 
         builder.Services.AddControllers();
 
