@@ -1,7 +1,7 @@
 ﻿# ---------- BASE RUNTIME ----------
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-EXPOSE 8080  # ✅ Change from 10000 to 8080
+EXPOSE 8080
 
 # ---------- BUILD ----------
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
@@ -30,7 +30,6 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
-# ✅ Fixed ENV variable
 ENV ASPNETCORE_URLS=http://*:8080
 ENV PORT=8080
 
