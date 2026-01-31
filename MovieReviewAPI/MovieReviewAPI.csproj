@@ -40,4 +40,10 @@
     <Folder Include="Middleware\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="..\.dockerignore">
+      <DependentUpon>DockerFile</DependentUpon>
+    </None>
+  </ItemGroup>
+
 </Project>
