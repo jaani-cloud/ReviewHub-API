@@ -31,6 +31,7 @@ public class Program
         builder.Services.AddScoped<IEmailService, EmailService>();
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IMovieService, MovieService>();
+        builder.Services.AddScoped<IReviewService, ReviewService>();
 
         builder.Services.AddSingleton<PendingUserStore>();
         builder.Services.AddSingleton<PasswordResetStore>();
