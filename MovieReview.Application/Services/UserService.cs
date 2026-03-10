@@ -88,4 +88,22 @@ public class UserService : IUserService
 
         return true;
     }
+    public async Task<IEnumerable<UserProfileResponse>> GetAllUsersAsync()
+    {
+        var users = await _userRepository.GetAllAsync();
+
+        return users.Select(user => new UserProfileResponse
+        {
+            Id = user.Id,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Email = user.Email,
+            PhoneNumber = user.PhoneNumber,
+            Role = user.Role.ToString(),
+            ProfilePhoto = user.ProfilePhoto,
+            Dob = user.Dob,
+            Instagram = user.Instagram,
+            Youtube = user.Youtube
+        });
+    }
 }

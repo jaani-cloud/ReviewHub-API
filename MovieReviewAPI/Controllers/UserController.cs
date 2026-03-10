@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MovieReview.Core.DTOs.User;
 using MovieReview.Core.Interfaces.Services;
+using MovieReviewAPI.Middleware;
 using System.Security.Claims;
 
 namespace MovieReviewAPI.Controllers;
@@ -77,6 +78,20 @@ public class UserController : ControllerBase
         catch (UnauthorizedAccessException ex)
         {
             return Unauthorized(new { success = false, message = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { success = false, message = ex.Message });
+        }
+    }
+    [HttpGet("all")]
+    [AdminOnly]
+    public async Task<ActionResult<IEnumerable<UserProfileResponse>>> GetAllUsers()
+    {
+        try
+        {
+            var users = await _userService.GetAllUsersAsync();
+            return Ok(new { success = true, users });
         }
         catch (Exception ex)
         {
