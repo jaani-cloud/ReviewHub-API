@@ -1,0 +1,12 @@
+# Visual Studio
+.vs/
+# Build folders
+bin/
+obj/
+# Git internal
+.git/
+# App settings
+appsettings.json
+# User specific
+*.user
+*.suo
