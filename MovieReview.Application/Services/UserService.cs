@@ -106,4 +106,43 @@ public class UserService : IUserService
             Youtube = user.Youtube
         });
     }
+
+    public async Task<bool> DeleteUserAsync(int userId)
+    {
+        var user = await _userRepository.GetByIdAsync(userId);
+        if (user == null)
+            throw new InvalidOperationException("User not found");
+
+        await _userRepository.DeleteAsync(userId);
+        return true;
+    }
+
+    public async Task<UserProfileResponse> UpdateUserRoleAsync(int userId, string role)
+    {
+        var user = await _userRepository.GetByIdAsync(userId);
+        if (user == null)
+            throw new InvalidOperationException("User not found");
+
+        if (!Enum.TryParse<MovieReview.Domain.Enums.Role>(role, true, out var parsedRole))
+            throw new InvalidOperationException("Invalid role. Use 'User' or 'Admin'");
+
+        user.Role = parsedRole;
+        user.UpdatedAt = DateTime.UtcNow;
+
+        await _userRepository.UpdateAsync(user);
+
+        return new UserProfileResponse
+        {
+            Id = user.Id,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Email = user.Email,
+            PhoneNumber = user.PhoneNumber,
+            Role = user.Role.ToString(),
+            ProfilePhoto = user.ProfilePhoto,
+            Dob = user.Dob,
+            Instagram = user.Instagram,
+            Youtube = user.Youtube
+        };
+    }
 }

@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieReview.Core.DTOs.User;
-using MovieReview.Core.Interfaces.Services;
 using MovieReviewAPI.Middleware;
-using System.Security.Claims;
 
 namespace MovieReviewAPI.Controllers;
 
@@ -92,6 +90,44 @@ public class UserController : ControllerBase
         {
             var users = await _userService.GetAllUsersAsync();
             return Ok(new { success = true, users });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { success = false, message = ex.Message });
+        }
+    }
+
+    [HttpDelete("{userId}")]
+    [AdminOnly]
+    public async Task<IActionResult> DeleteUser(int userId)
+    {
+        try
+        {
+            await _userService.DeleteUserAsync(userId);
+            return Ok(new { success = true, message = "User deleted successfully" });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return NotFound(new { success = false, message = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { success = false, message = ex.Message });
+        }
+    }
+
+    [HttpPut("{userId}/role")]
+    [AdminOnly]
+    public async Task<ActionResult<UserProfileResponse>> UpdateUserRole(int userId, [FromBody] UpdateRoleRequest request)
+    {
+        try
+        {
+            var user = await _userService.UpdateUserRoleAsync(userId, request.Role);
+            return Ok(new { success = true, message = "Role updated successfully", user });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { success = false, message = ex.Message });
         }
         catch (Exception ex)
         {
