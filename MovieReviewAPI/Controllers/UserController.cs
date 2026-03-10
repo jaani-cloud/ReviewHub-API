@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieReview.Core.DTOs.User;
+using MovieReview.Core.Interfaces.Services;
 using MovieReviewAPI.Middleware;
 
 namespace MovieReviewAPI.Controllers;
